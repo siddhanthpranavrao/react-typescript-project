@@ -1,27 +1,27 @@
-import { useState, useEffect } from 'react';
 import './App.css'
-import axios from 'axios'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
+import Profile from './pages/Profile'
+import Contact from './pages/Contact'
 
 function App() {
-  const [excuse, setExcuse] = useState("");
 
-  const fetchExcuse = async (type: string) => {
-    const { data: [{ excuse }] } = await axios.get(`https://excuser.herokuapp.com/v1/excuse/${type}/`);
-    setExcuse(excuse)
-  }
 
 
   return (
     <div className="App">
-      <h1>Generate An Excuse</h1>
-      <div>
-        <button onClick={() => fetchExcuse('party')}>Party</button>
-        <button onClick={() => fetchExcuse('family')}>Family</button>
-        <button onClick={() => fetchExcuse('office')}>Office</button>
-      </div>
-      <div>
-        {excuse}
-      </div>
+      <Router>
+        <nav>
+          <Link to='/'>Home</Link>
+          <Link to='/profile'>Profile</Link>
+          <Link to='/contact'>Contact</Link>
+        </nav>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/contact' element={<Contact />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
