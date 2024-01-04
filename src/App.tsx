@@ -1,50 +1,32 @@
-import { useState } from 'react'
-import Task from './Task'
-import { TaskType } from './Task';
-import './Task.css'
-
+import { useState, useEffect } from 'react';
+import './App.css'
+import axios from 'axios'
 
 function App() {
-  const [tasks, setTasks] = useState<TaskType[]>([]);
-  const [taskInput, setTaskInput] = useState("");
-  const [taskId, setTaskId] = useState(1);
+  const [catData, setCatData] = useState("");
 
-  const deleteFn = (task: TaskType) => {
-    const updatedTasks = tasks.filter((t: TaskType) => {
-      if (t.id === task.id) {
-        return false;
-      } else {
-        return true;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: { fact } } = await axios.get('https://catfact.ninja/fact');
+        setCatData(fact);
+      } catch (error) {
+        console.error('Error fetching cat data:', error);
       }
-    })
-    setTasks([...updatedTasks]);
-  }
+    };
 
-  const completeFn = (task: TaskType) => {
-    
+    fetchData();
+  }, []);
+
+  const fetchCatData = async () => {
   }
 
   return (
     <div className="App">
-      <div className="task-input-div">
-        <input type="text"
-         className="task-input"
-         value={taskInput}
-         onChange={(e) => setTaskInput(e.target.value)}/>
-        
-        <button onClick={() => {
-          const newTask: TaskType = {id: taskId, title: taskInput};
-          setTasks([...tasks, newTask]);
-          setTaskInput('');
-          setTaskId(taskId + 1);
-        }}>Add Task</button>
-      
-        </div>
-      <main>
-        {tasks.map((t: TaskType) => {
-          return <Task key={t.id} task={t} deleteFn={deleteFn}/>
-        })}
-      </main>
+      <button >Generate Cat Fact</button>
+      <div>
+        {catData}
+      </div>
     </div>
   )
 }
