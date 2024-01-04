@@ -20,6 +20,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='*' element={<h1>ERROR!</h1>} />
         </Routes>
       </Router>
     </div>
