@@ -1,3 +1,7 @@
-export default function Home() {
-    return <h1>HOME!</h1>
+type HomeProps = {
+    username: string
+}
+
+export default function Home({ username }: HomeProps) {
+    return <h1>HOME! {username}</h1>
 }
