@@ -3,29 +3,24 @@ import './App.css'
 import axios from 'axios'
 
 function App() {
-  const [catData, setCatData] = useState("");
+  const [excuse, setExcuse] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: { fact } } = await axios.get('https://catfact.ninja/fact');
-        setCatData(fact);
-      } catch (error) {
-        console.error('Error fetching cat data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const fetchCatData = async () => {
+  const fetchExcuse = async (type: string) => {
+    const { data: [{ excuse }] } = await axios.get(`https://excuser.herokuapp.com/v1/excuse/${type}/`);
+    setExcuse(excuse)
   }
+
 
   return (
     <div className="App">
-      <button >Generate Cat Fact</button>
+      <h1>Generate An Excuse</h1>
       <div>
-        {catData}
+        <button onClick={() => fetchExcuse('party')}>Party</button>
+        <button onClick={() => fetchExcuse('family')}>Family</button>
+        <button onClick={() => fetchExcuse('office')}>Office</button>
+      </div>
+      <div>
+        {excuse}
       </div>
     </div>
   )
